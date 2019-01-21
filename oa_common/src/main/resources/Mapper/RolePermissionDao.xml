@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heli.oa.common.dao.RolePermissionDao">
+    <resultMap id="RoleResultMap" type="com.heli.oa.common.entity.Role">
+        <id column="role_id" jdbcType="INTEGER" property="roleId" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="role_chinese" jdbcType="VARCHAR" property="roleChinese" />
+    </resultMap>
+    <resultMap id="PermissionResultMap" type="com.heli.oa.common.entity.Permission">
+        <id column="id" jdbcType="INTEGER" property="perId" />
+        <result column="name" jdbcType="VARCHAR" property="perName" />
+        <result column="url" jdbcType="VARCHAR" property="perUrl" />
+    </resultMap>
+
+    <select id="listRolesByUserName" parameterType="java.lang.String" resultMap="RoleResultMap">
+        select r.role_id, r.role_name,r.role_chinese from sunshine_user u
+                        left join sunshine_user_role ur
+                        on u.user_id = ur.uid
+                        left join sunshine_role r
+                        on r.role_id = ur.rid
+                        where u.user_nickname = #{userNickname,jdbcType=VARCHAR}
+    </select>
+
+    <select id="listPermissionsByUserName" parameterType="java.lang.String" resultMap="PermissionResultMap">
+        select p.id, p.name,p.url from sunshine_user u
+                        left join sunshine_user_permission up
+                        on u.user_id = up.uid
+                        left join sunshine_permission p
+                        on p.id = up.pid
+                        where u.user_nickname = #{userNickname,jdbcType=VARCHAR}
+    </select>
+</mapper>

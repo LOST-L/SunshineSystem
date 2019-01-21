@@ -1,0 +1,229 @@
+package com.heli.oa.common.controller;
+
+import com.heli.oa.common.entity.User;
+import com.heli.oa.common.service.UserService;
+import com.heli.oa.common.util.CodeUtils;
+import com.heli.oa.common.util.ErrorCatchUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
+import java.util.List;
+import java.util.Map;
+
+/**
+ *@Author: 白驹
+ *@Date: 2019/1/2 10:44
+ *@Description:
+ */
+@Slf4j
+@Controller
+public class UserController {
+
+    @Autowired
+    UserService userService;
+
+    @RequestMapping("/{path1}/{path2}")
+    protected String redirect(@PathVariable("path1") String path1,@PathVariable("path2") String path2) {
+        return path1+"/"+path2;
+    }
+    @RequestMapping("/{path}")
+    protected String redirect(@PathVariable("path") String path) {
+        return path;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/login",produces = "application/json;charset=utf-8")
+    public CodeUtils login(HttpServletResponse response,HttpSession session,String sign){
+        CodeUtils codeUtils = new CodeUtils();
+        try{
+            User user = userService.userLogin(sign);
+            if(user!=null){
+                session.setAttribute("user", user);
+                Cookie userNickName = new Cookie("userNickName",URLEncoder.encode(user.getUserNickname(), "utf-8"));
+                userNickName.setMaxAge(60*60*24);
+                response.addCookie(userNickName);
+                codeUtils.setCode(200);
+            }else{
+                codeUtils.setCode(500);
+            }
+        }catch (Exception e){
+            ErrorCatchUtil.errorMessageToDing(e);
+        }
+        return codeUtils;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/logout")
+    public void logout(HttpServletRequest request,HttpServletResponse response) {
+        try {
+            request.getSession().invalidate();
+            response.getWriter().println("再见！");
+            response.sendRedirect("login.jsp");
+        } catch (Exception e) {
+            ErrorCatchUtil.errorMessageToDing(e);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/addUser")
+    public CodeUtils addUser(User u){
+        CodeUtils codeUtils = new CodeUtils();
+        try{
+            userService.addUser(u);
+            codeUtils.setCode(200);
+        }catch (Exception e){
+            ErrorCatchUtil.errorMessageToDing(e);
+        }
+        return codeUtils;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/deleteUser")
+    public CodeUtils deleteUser(User u){
+        CodeUtils codeUtils = new CodeUtils();
+        try{
+            userService.deleteUser(u);
+            codeUtils.setCode(200);
+        }catch (Exception e){
+            ErrorCatchUtil.errorMessageToDing(e);
+        }
+        return codeUtils;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/updateUser")
+    public CodeUtils updateUser(User u){
+        CodeUtils codeUtils = new CodeUtils();
+        try{
+            userService.updateUser(u);
+            codeUtils.setCode(200);
+        }catch (Exception e){
+            ErrorCatchUtil.errorMessageToDing(e);
+        }
+        return codeUtils;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getUserByUserId")
+    public CodeUtils getUserByUserId(Integer userId){
+        CodeUtils codeUtils = new CodeUtils();
+        try{
+            User user = userService.getUserByUserId(userId);
+            if(user!=null){
+                codeUtils.setCode(200);
+                codeUtils.setParamObject(user);
+            }else{
+                codeUtils.setCode(500);
+            }
+        }catch (Exception e){
+            ErrorCatchUtil.errorMessageToDing(e);
+        }
+        return codeUtils;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/listAllUser")
+    public CodeUtils listAllUser(){
+        CodeUtils codeUtils = new CodeUtils();
+        try{
+            List<User> users = userService.listAllUser();
+            if(users!=null){
+                codeUtils.setCode(200);
+                codeUtils.setParamList(users);
+            }else{
+                codeUtils.setCode(500);
+            }
+        }catch (Exception e){
+            ErrorCatchUtil.errorMessageToDing(e);
+        }
+        return codeUtils;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/listUserBySunshine")
+    public CodeUtils listUserBySunshine(){
+        CodeUtils codeUtils = new CodeUtils();
+        try{
+            List<User> users = userService.listUserBySunshine();
+            if(users!=null){
+                codeUtils.setCode(200);
+                codeUtils.setParamList(users);
+            }else{
+                codeUtils.setCode(500);
+            }
+        }catch (Exception e){
+            ErrorCatchUtil.errorMessageToDing(e);
+        }
+        return codeUtils;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/listUserByCity")
+    public CodeUtils listUserByCity(String userCity){
+        CodeUtils codeUtils = new CodeUtils();
+        try{
+            List<User> users = userService.listUserByCity(userCity);
+            if(users!=null){
+                codeUtils.setCode(200);
+                codeUtils.setParamList(users);
+            }else{
+                codeUtils.setCode(500);
+            }
+        }catch (Exception e){
+            ErrorCatchUtil.errorMessageToDing(e);
+        }
+        return codeUtils;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/listUserByDepartment")
+    public CodeUtils listUserByDepartment(String userDepartment){
+        CodeUtils codeUtils = new CodeUtils();
+        try{
+            List<User> users  = userService.listUserByDepartment(userDepartment);
+            if(users!=null){
+                codeUtils.setCode(200);
+                codeUtils.setParamList(users);
+            }else{
+                codeUtils.setCode(500);
+            }
+        }catch (Exception e){
+            ErrorCatchUtil.errorMessageToDing(e);
+        }
+        return codeUtils;
+    }
+
+    /** searchBy 手机号：1，QQ号：2，微信号：3*/
+    @ResponseBody
+    @RequestMapping(value = "/searchUser",produces = "application/json;charset=utf-8")
+    public CodeUtils searchUser(String key,Integer searchBy,HttpServletResponse response){
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+        Map userReturn = null;
+        CodeUtils codeUtils = new CodeUtils();
+        if (key == null && searchBy == null){
+            codeUtils.setCode(500);
+        }else{
+            userReturn  = userService.searchUser(key,searchBy);
+            if(userReturn == null){
+                codeUtils.setCode(500);
+            }else{
+                codeUtils.setParamObject(userReturn);
+                codeUtils.setCode(200);
+            }
+        }
+        return codeUtils;
+    }
+}

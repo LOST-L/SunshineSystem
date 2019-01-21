@@ -1,0 +1,47 @@
+package com.heli.oa.sunshine.dao;
+
+import com.heli.oa.sunshine.entity.Task;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+/**  * @author 白驹  */
+@Repository
+public interface TaskDao {
+
+    void addTask(Task t);
+
+    void deleteTaskByTaskId(Integer taskId);
+
+    void deleteTaskByRecordId(Integer taskRecordId);
+
+    void updateTask(Task t);
+
+    Task selectLastTask();
+
+    Task selectTaskByRecordId(Integer taskRecordId);
+
+    Task selectFatherTaskByTaskId(Integer taskId);
+
+    Task selectLastSameFatherTask(Integer taskId);
+
+    List<Task> listTaskByTaskId(Integer taskId);
+
+    List<Task> listTaskByStatus(String taskStatus);
+
+    List<Task> listTaskByCreator(String creater);
+
+    List<Task> listFatherTaskByCreator(String creater);
+
+    List<Task> listTaskByReceiver(String receiver);
+
+    List<Task> listSonTaskByReceiver(String receiver);
+
+    List<Task> listSonDoneTaskByReceiver(String receiver);
+
+    List<Task> listSonByTaskId(Integer taskId);
+
+    List<Task> listAcceptSonByReceiver(String receiver);
+
+    List<Task> listToAuditByCreator(String creater);
+}

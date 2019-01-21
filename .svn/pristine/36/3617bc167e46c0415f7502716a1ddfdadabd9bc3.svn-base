@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--解决，查询返回结果含null没有对应字段值问题-->
+        <setting name="callSettersOnNulls" value="true"/>
+        <!--控制台输出sql语句及结果-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!-- logbcak 记录sql-->
+        <setting name="logImpl" value="SLF4J" />
+        <!-- 在所有的SQL映射路径上加上“dao”这个前缀 -->
+        <setting name="logPrefix" value="dao."/>
+    </settings>
+</configuration>

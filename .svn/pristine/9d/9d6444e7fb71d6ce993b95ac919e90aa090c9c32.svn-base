@@ -1,0 +1,132 @@
+package com.heli.oa.common.util;
+
+import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+@Slf4j
+public class ErrorCatchUtil {
+    /**钉钉电软部群,监控BUG用*/
+    private static String WEBHOOK_TOKEN_Test = "https://oapi.dingtalk.com/robot/send?access_token=2ce772122aae47a1d631c2d7e4c025a4c500b254213e2805fb3740d87144344c";
+
+    /**
+     * 输出堆栈信息
+     * @param e
+     * @return
+     */
+    public static String getMessage(Exception e) {
+        StringWriter sw = null;
+        PrintWriter pw = null;
+        try {
+            sw = new StringWriter();
+            pw = new PrintWriter(sw);
+            // 将出错的栈信息输出到printWriter中
+            e.printStackTrace(pw);
+            pw.flush();
+            sw.flush();
+        } finally {
+            if (sw != null) {
+                try {
+                    sw.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            if (pw != null) {
+                pw.close();
+            }
+        }
+        return sw.toString();
+    }
+
+    public static String getErrorLog(Exception e){
+        StringBuilder errorLog = new StringBuilder();
+        StackTraceElement[] element = e.getStackTrace();
+
+        for (int i = 0 ;i < element.length; i++) {
+            if ("com.heli".equals(element[i].getClassName().substring(0, 8))){
+                errorLog.append(/*"\t\t\t\t\t\t\t"+*/element[i].getFileName() + "-> " + element[i].getMethodName() + "->" + element[i].getLineNumber()+"\n");
+            }
+        }
+        return errorLog.toString();
+    }
+
+    /**
+     * 错误信息通知到电软部群，并@指定人员
+     * 哦，我的天！瞧瞧这个愚蠢的小BUG！我亲爱的上帝，请原谅我，我要亲手消灭他！
+     * */
+    public static void errorMessageToDing(String errorMessage, Exception e){
+        e.printStackTrace();
+        HttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(WEBHOOK_TOKEN_Test);
+        httppost.addHeader("Content-Type", "application/json; charset=utf-8");
+
+        String textMsg = "{\n" +
+                "     \"msgtype\": \"text\",\n" +
+                "     \"text\": {\n" +
+                "         \"content\":\""+ "呔，BUG！哪里跑？吃俺老孙一棒！\n@" + "18330107406" +" \n"+ "错误位置：\n"+ errorMessage + getErrorLog(e) + "\"\n" +
+                "     },\n" +
+                "     \"at\": {\n" +
+                "         \"atMobiles\": [\n" +
+                "18330107406" +
+                "         ], \n" +
+                "         \"isAtAll\": false\n" +
+                "     }\n" +
+                " }";
+        StringEntity se = new StringEntity(textMsg, "utf-8");
+        httppost.setEntity(se);
+        try{
+            HttpResponse response = httpclient.execute(httppost);
+            if (response.getStatusLine().getStatusCode()== HttpStatus.SC_OK){
+                String result= EntityUtils.toString(response.getEntity(), "utf-8");
+                System.out.println(result);
+            }
+        }catch(Exception e1){
+            e1.printStackTrace();
+        }
+    }
+
+    public static void errorMessageToDing(Exception e){
+        e.printStackTrace();
+        HttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(WEBHOOK_TOKEN_Test);
+        httppost.addHeader("Content-Type", "application/json; charset=utf-8");
+
+        String textMsg = "{\n" +
+                "     \"msgtype\": \"text\",\n" +
+                "     \"text\": {\n" +
+                "         \"content\":\"呔，BUG！哪里跑？吃俺老孙一棒！\n@18330107406\n错误信息：\n "
+                            + e.toString().replaceAll("\"","\\\\\"")
+                            +"\n出错位置：\n"
+                            + getErrorLog(e) + "\"\n" +
+                "     },\n" +
+                "     \"at\": {\n" +
+                "         \"atMobiles\": [\n" +
+                "18330107406" +
+                "         ], \n" +
+                "         \"isAtAll\": false\n" +
+                "     }\n" +
+                " }";
+        StringEntity se = new StringEntity(textMsg, "utf-8");
+        httppost.setEntity(se);
+        System.out.println(textMsg);
+        try{
+            HttpResponse response = httpclient.execute(httppost);
+            if (response.getStatusLine().getStatusCode()== HttpStatus.SC_OK){
+                String result= EntityUtils.toString(response.getEntity(), "utf-8");
+                System.out.println(result);
+            }
+        }catch(Exception e1){
+            e1.printStackTrace();
+        }
+    }
+}

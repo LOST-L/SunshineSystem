@@ -1,0 +1,7 @@
+项目框架：SSM
+任务调度：Quartz，Spring Schedule
+数据库：MySQL
+数据库连接池：阿里 Druid
+日志：logback
+信息及错误通知调用钉钉自定义机器人API发送到钉钉群
+权限校验：shiro

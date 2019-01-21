@@ -1,0 +1,42 @@
+package com.heli.oa.sunshine.service;
+
+import com.heli.oa.sunshine.entity.Sunshine;
+import com.heli.oa.sunshine.entity.Task;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**  * @author 白驹  */
+@Service
+public interface SunshineService {
+    List<Sunshine> listSunshine();
+    Sunshine getSunshine(Sunshine s);
+    void addSunshine(Sunshine s) throws Exception;
+    void minusSunshine(Sunshine s) throws Exception;
+    void minusMoney(Sunshine s);
+    List<Double>  sumMoney();
+
+    List<Sunshine> listMiusSunshine();
+
+    List<Sunshine> listPlusSunshine();
+
+    List<Sunshine> listMoneySunshine();
+
+    void delPlusSunshine(Sunshine s);
+
+    void delMinusSunshine(Sunshine s);
+
+    void delMoneySunshine(Sunshine s);
+
+    void updateMoneyStatus(Sunshine s);
+
+    List<Sunshine> listByUserId(Sunshine s);
+
+    void updatePlusSunshine(Sunshine s);
+
+    void updateMinusSunshine(Sunshine s);
+
+    void updateMoneySunshine(Sunshine s);
+
+    void minusSunshineN(Sunshine s, Task t);
+}

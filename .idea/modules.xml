@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/OA-Heli.iml" filepath="$PROJECT_DIR$/.idea/OA-Heli.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oa_common/oa_common.iml" filepath="$PROJECT_DIR$/oa_common/oa_common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oa_marketing/oa_marketing.iml" filepath="$PROJECT_DIR$/oa_marketing/oa_marketing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oa_plan/oa_plan.iml" filepath="$PROJECT_DIR$/oa_plan/oa_plan.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oa_seo/oa_seo.iml" filepath="$PROJECT_DIR$/oa_seo/oa_seo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oa_sunshine/oa_sunshine.iml" filepath="$PROJECT_DIR$/oa_sunshine/oa_sunshine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oa_web/oa_web.iml" filepath="$PROJECT_DIR$/oa_web/oa_web.iml" />
+    </modules>
+  </component>
+</project>

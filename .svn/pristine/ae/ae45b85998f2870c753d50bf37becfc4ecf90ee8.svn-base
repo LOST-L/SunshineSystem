@@ -1,0 +1,75 @@
+package com.heli.oa.sunshine.util;
+
+
+import com.heli.oa.sunshine.dao.TaskDao;
+import com.heli.oa.sunshine.service.impl.AddRepeatTaskServiceNew;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.TriggerBuilder.newTrigger;
+
+/**
+  * 任务调度服务类
+  * @author 白驹 
+ */
+@Component
+public class QuartzUtil {
+    @Autowired
+    TaskDao taskDao;
+    @Autowired
+    DingMessageUtils dingMessageUtils;
+
+    public static Scheduler scheduler;
+    static {
+        scheduler = null;
+    }
+
+    public void resumeJobFromDatabase() throws Exception {
+        Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+        scheduler.start();
+        // 等待200秒，让前面的任务都执行完了之后，再关闭调度器
+        Thread.sleep(200000);
+        scheduler.shutdown(true);
+    }
+
+    /**
+     *
+     * @throws SchedulerException
+     */
+
+    public void add(String startTime, Date endTime, Integer recordId,Integer taskId) throws SchedulerException{
+        if(scheduler==null){
+            StdSchedulerFactory sf = new StdSchedulerFactory();
+            //
+  sf.initialize("common.properties");
+
+            scheduler = sf.getScheduler();
+        }
+
+        //定义一个触发器
+        String jobName = recordId.toString() /*+ taskDao.selectTaskByTaskId(taskId).getTaskCreator()*/;
+        CronTrigger trigger = newTrigger()
+                //name根据Task接收人+id
+                .withIdentity(jobName + "Trigger", "createRepeatTaskTriggerGroup")
+                //循环规则  "0/2 * * * * ?"
+                .withSchedule(cronSchedule(startTime))
+                //设置循环任务结束时间
+                .endAt(endTime)
+                .build();
+
+        JobDetail job=JobBuilder.newJob(AddRepeatTaskServiceNew.class)
+                .withIdentity(jobName + "Job", "createRepeatTaskJobGroup")
+                .usingJobData("recordId",recordId)
+                .usingJobData("taskId",taskId)
+                .build();
+
+        //添加到任务中
+        scheduler.scheduleJob(job, trigger);
+        scheduler.start();
+    }
+}

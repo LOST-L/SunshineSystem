@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heli.oa.common.dao.CountUserPowerMapper">
+  <resultMap id="BaseResultMap" type="com.heli.oa.common.entity.CountUserPower">
+    <id column="power_id" jdbcType="INTEGER" property="id" />
+    <result column="power_name" jdbcType="VARCHAR" property="name" />
+    <result column="power_type_id" jdbcType="INTEGER" property="typeId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    power_id, power_name, power_type_id
+  </sql>
+  
+  <select id="selectAllByPowerType" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from count_user_power
+    where power_type_id = #{typeId,jdbcType=INTEGER}
+  </select>
+  <select id="searchCountUserPowerListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select cup.*
+    from count_user_power as cup,count_power_link_user as cplu
+    where cup.power_id = cplu.link_power_id
+    and cplu.link_user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteLinkSource" parameterType="java.lang.Integer">
+    delete from count_power_link_user
+    where link_user_id = #{userId,jdbcType=INTEGER}
+    and link_power_id in (
+      select cup.power_id from count_user_power as cup
+      where cup.power_type_id = #{powerTypeId,jdbcType=INTEGER}
+    );
+  </delete>
+  <insert id="editLinkSource" parameterType="com.heli.oa.common.entity.CountUserPower">
+    insert into count_power_link_user(link_power_id, link_user_id)
+    values(#{powerId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
+  </insert>
+</mapper>

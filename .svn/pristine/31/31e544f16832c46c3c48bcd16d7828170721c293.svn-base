@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+    scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。
+                当scan为true时，此属性生效。默认的时间间隔为1分钟。
+    debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+    -->
+<configuration scan="true" scanPeriod="60 seconds" debug="false" >
+
+    <property name="log.home" value="${catalina.home}/logs" />
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} <!--%-4relative [%thread]--> %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} <!--%-4relative [%thread]--> %-5level %logger - %msg%n</pattern>
+        </encoder>
+        <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--路径-->
+            <fileNamePattern>${log.home}/info-%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+<!--    <appender name="seo" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        &lt;!&ndash; encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
+            by default &ndash;&gt;
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator> &lt;!&ndash; defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator &ndash;&gt;
+                <expression>return message.contains("seo");</expression>
+            </evaluator>
+            <OnMismatch>NEUTRAL</OnMismatch>
+            <OnMatch>DENY</OnMatch>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} &lt;!&ndash;%-4relative [%thread]&ndash;&gt; %-5level %logger - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            &lt;!&ndash;路径&ndash;&gt;
+            <fileNamePattern>${log.home}/seo-%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>-->
+<!--
+    <appender name="sunshine" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        &lt;!&ndash; encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
+            by default &ndash;&gt;
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator> &lt;!&ndash; defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator &ndash;&gt;
+                <expression>return message.contains("sunshine");</expression>
+            </evaluator>
+            <OnMismatch>NEUTRAL</OnMismatch>
+            <OnMatch>DENY</OnMatch>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} &lt;!&ndash;%-4relative [%thread]&ndash;&gt; %-5level %logger - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            &lt;!&ndash;路径&ndash;&gt;
+            <fileNamePattern>${log.home}/sunshine-%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    <appender name="common" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        &lt;!&ndash; encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
+            by default &ndash;&gt;
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator> &lt;!&ndash; defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator &ndash;&gt;
+                <expression>return message.contains("common");</expression>
+            </evaluator>
+            <OnMismatch>NEUTRAL</OnMismatch>
+            <OnMatch>DENY</OnMatch>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} &lt;!&ndash;%-4relative [%thread]&ndash;&gt; %-5level %logger - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            &lt;!&ndash;路径&ndash;&gt;
+            <fileNamePattern>${log.home}/common-%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    <appender name="plan" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        &lt;!&ndash; encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
+            by default &ndash;&gt;
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator> &lt;!&ndash; defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator &ndash;&gt;
+                <expression>return message.contains("plan");</expression>
+            </evaluator>
+            <OnMismatch>NEUTRAL</OnMismatch>
+            <OnMatch>DENY</OnMatch>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} &lt;!&ndash;%-4relative [%thread]&ndash;&gt; %-5level %logger - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            &lt;!&ndash;路径&ndash;&gt;
+            <fileNamePattern>${log.home}/plan-%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    <appender name="marketing" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        &lt;!&ndash; encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
+            by default &ndash;&gt;
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator> &lt;!&ndash; defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator &ndash;&gt;
+                <expression>return message.contains("marketing");</expression>
+            </evaluator>
+            <OnMismatch>NEUTRAL</OnMismatch>
+            <OnMatch>DENY</OnMatch>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} &lt;!&ndash;%-4relative [%thread]&ndash;&gt; %-5level %logger - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            &lt;!&ndash;路径&ndash;&gt;
+            <fileNamePattern>${log.home}/marketing-%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+-->
+
+    <root level="info">
+        <appender-ref ref="consoleLog" />
+        <appender-ref ref="fileInfoLog"/>
+<!--        <appender-ref ref="seo"/>-->
+<!--        <appender-ref ref="sunshine"/>
+        <appender-ref ref="common"/>
+        <appender-ref ref="marketing"/>
+        <appender-ref ref="plan"/>-->
+    </root>
+</configuration>

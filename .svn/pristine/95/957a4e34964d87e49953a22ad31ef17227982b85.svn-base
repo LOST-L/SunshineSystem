@@ -1,0 +1,169 @@
+/*
+package com.heli.oa.sunshine.controller;
+
+import com.heli.model.Task;
+import com.heli.service.TaskService;
+import com.heli.util.Code;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.apache.struts2.ServletActionContext;
+import org.quartz.SchedulerException;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+import static com.heli.util.ErrorCatchUtil.errorMessageToDing;
+
+*/
+/**
+ * @author 白驹
+ *//*
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class TaskController {
+    private HttpServletRequest request = ServletActionContext.getRequest();
+    @Autowired
+    private TaskService taskService;
+    private Code code = new Code();
+    private Task t = new Task();
+
+    @Override
+    public Task getModel() {
+        if (t == null){
+            t = new Task();
+        }
+        return t;
+    }
+
+    public String addTask(){
+        try {
+            taskService.addFatherTask(t);
+            code.setCode(200);
+        } catch (Exception e) {
+
+        }
+        return SUCCESS;
+    }
+
+    public String cancelFatherTask(){
+        try {
+            taskService.cancelTask(t);
+            code.setCode(200);
+        } catch (SchedulerException e) {
+            errorMessageToDing(e);
+        }
+        return SUCCESS;
+    }
+
+    public String reportTask(){
+        try {
+            taskService.updateByIdTask(t);
+            code.setCode(200);
+        } catch (Exception e) {
+            errorMessageToDing(e);
+        }
+        return SUCCESS;
+    }
+
+    public String auditTask(){
+        try {
+            taskService.auditTask(t);
+            code.setCode(200);
+        } catch (Exception e) {
+            errorMessageToDing(e);
+        }
+        return SUCCESS;
+    }
+
+    public String acceptOrRefuseTask(){
+        try {
+            taskService.acceptOrRefuseTask(t);
+            code.setCode(200);
+        } catch (Exception e) {
+            errorMessageToDing(e);
+        }
+        return SUCCESS;
+    }
+
+    public String listAcceptByReceiverTask(){
+        try {
+            List<Task> list = taskService.listAcceptSonByReceiver(t);
+            code.setCode(200);
+            code.setParamList(list);
+        } catch (Exception e) {
+            errorMessageToDing(e);
+        }
+        return SUCCESS;
+    }
+
+    public String listDoingByReceiverTask(){
+        try {
+            List<Task> list = taskService.listSonTaskByReceiver(t);
+            code.setCode(200);
+            code.setParamList(list);
+        } catch (Exception e) {
+            errorMessageToDing(e);
+        }
+        return SUCCESS;
+    }
+
+    public String listDoneByReceiverTask(){
+        try {
+            List<Task> list = taskService.listSonDoneTaskByReceiver(t);
+            code.setCode(200);
+            code.setParamList(list);
+        } catch (Exception e) {
+            errorMessageToDing(e);
+        }
+        return SUCCESS;
+    }
+
+    public String listToAuditByCreaterTask(){
+        try {
+            List<Task> list = taskService.listToAuditByCreater(t);
+            code.setCode(200);
+            code.setParamList(list);
+        } catch (Exception e) {
+            errorMessageToDing(e);
+        }
+        return SUCCESS;
+    }
+
+    public String listFatherByCreaterTask(){
+        try {
+            List<Task> list = taskService.listFatherTaskByCreater(t);
+            code.setCode(200);
+            code.setParamList(list);
+        } catch (Exception e) {
+            errorMessageToDing(e);
+        }
+        return SUCCESS;
+    }
+
+    public String listTaskByCreaterTask(){
+        try {
+            List<Task> list = taskService.listTaskByCreater(t);
+            code.setCode(200);
+            code.setParamList(list);
+        } catch (Exception e) {
+            errorMessageToDing(e);
+        }
+        return SUCCESS;
+    }
+
+    public String listSonByTaskIdTask(){
+        try {
+            List<Task> list = taskService.listSonByTaskId(t);
+            code.setCode(200);
+            code.setParamList(list);
+        } catch (Exception e) {
+            errorMessageToDing(e);
+        }
+        return SUCCESS;
+    }
+}
+*/

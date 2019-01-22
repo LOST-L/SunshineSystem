@@ -12,10 +12,10 @@ oa_sunshine：阳光值模块，任务管理模块，待办事项模块
 
 数据库连接池：阿里 Druid
 
-登陆及权限校验：shiro
+登陆及权限校验：Shiro
 
 任务调度：Quartz，Spring Schedule
 
-日志：logback
+日志：Logback
 
 消息通知调用钉钉自定义机器人API发送到钉钉群

@@ -1,6 +1,9 @@
-oa_web：网页文件及静态文件在
+oa_web：网页及静态文件
+
 oa_common：员工管理模块，shiro
+
 oa_sunshine：阳光值模块，任务管理模块，待办事项模块
+
 其他文件夹为空
 
 项目框架：SSM
